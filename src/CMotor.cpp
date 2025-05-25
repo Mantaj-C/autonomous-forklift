@@ -28,6 +28,11 @@
 #define SERVO_RAISE 1325
 #define SERVO_LOWER 1750
 
+#define radius_cm 3.46
+#define PI_2 6.283185307179586 // 2 x Pi
+
+#define steps_per_cm (200)/(PI_2 * radius_cm)  
+#define steps_per_deg (200/360) // 200 Steps per 360 Degrees
 
 
 enum  motorDirection {CCW = 0, CW };
@@ -139,18 +144,11 @@ void CMotor::setPWM(int PWM) {
 
 int CMotor::getFrequency() {return _PWM_FREQ; }
 
-#define radius_cm 3.46
-#define PI_2 6.283185307179586 // 2 x Pi
-
-#define steps_per_cm (200)/(PI_2 * radius_cm)  
-
 void CMotor::TravelTiming(float distance_cm) {
     int time_ms = distance_cm * steps_per_cm * (1000/_PWM_FREQ); // Distance x Steps/Distance x Time/Step
     std::this_thread::sleep_for(std::chrono::milliseconds(time_ms));
     //std::cout << "Time Delay: " << time_ms << std::endl;
 }
-
-#define steps_per_deg (200/360) // 200 Steps per 360 Degrees
 
 void CMotor::TurnTiming(float angle_deg) {
     int time_ms = angle_deg * steps_per_deg* (1000/_PWM_FREQ); // Angle x Steps/Angle x Time/Step
