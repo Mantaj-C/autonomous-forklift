@@ -4,8 +4,6 @@
 #include <opencv2/aruco.hpp>
 #include "opencv2/imgproc/imgproc.hpp"
 #include <opencv2/dnn.hpp>
-#include <opencv2/aruco/charuco.hpp>
-#include <opencv2/aruco/charuco.hpp>
 
 #define ML_LO 1725
 #define MR_LO 1525
@@ -193,14 +191,11 @@ bool CPathing::AutoRouting(cv::Mat &frame, cv::Point2f target_position, int targ
     float delta_x = target_position.x - current_position.x;
     float delta_y = target_position.y - current_position.y;
     float distance = sqrt(delta_x*delta_x + delta_y*delta_y);
-    //std::cout << "Distance: " << distance << std::endl;
-    //std::cout << "(delta_x, delta_y): (" << delta_x << ", " << delta_y << ")" << std::endl;
     
     float angleRad = atan2(delta_x, delta_y);               // Range: [-π, π]
     float angleDeg = angleRad * 180.0 / M_PI;     // Convert to degrees
     angleDeg = angleDeg - 90;
     if (angleDeg < 0) { angleDeg += 360.0; }
-    
     float delta_angle = angleDeg - current_orientation;
     
 
@@ -210,7 +205,6 @@ bool CPathing::AutoRouting(cv::Mat &frame, cv::Point2f target_position, int targ
     
     cv::circle(frame, current_position / MMPERPIXEL, 10, cv::Scalar(0, 255, 0), -1);
     cv::circle(frame, target_position / MMPERPIXEL, 10, cv::Scalar(0, 0, 255), -1);
-    //std::cout << "Testing Routing" << std::endl;
     
     if (TestRouting(current_position, distance, angleDeg)) {
         cv::line(frame, current_position / MMPERPIXEL, target_position / MMPERPIXEL, cv::Scalar(255, 0, 0), 2);
@@ -257,93 +251,20 @@ bool CPathing::AutoRouting(cv::Mat &frame, cv::Point2f target_position, int targ
             else {
 
                 if (distance >= MAX_SINGLE_MOVE) {
-                    //std::cout << "Moving Forward: " << MAX_SINGLE_MOVE << std::endl;
                     Move_forward(MAX_SINGLE_MOVE, FORWARD_FREQ);
                 }
                 else {
-                    //std::cout << "Moving Forward " << distance << std::endl;
                     Move_forward(distance, FORWARD_FREQ);
                 }
             }
         }
         else {
-            checks++;
-            checks++;
-            /*
-            switch (target_orientation) { 
-                case LEFT:
-                    delta_move = 180 - current_orientation;
-                    if (abs(delta_move) >= Orientation_error) {
-                        if (delta_move >= 180 || ((delta_move <= 0) && (delta_move > -180)))  {
-                            Turn_right(abs(delta_move), SLOW_TURN_FREQ);
-                            //std::cout << "Turning right" << delta_move <<std::endl;
-                        }
-                        else {
-                            Turn_left(abs(delta_move), SLOW_TURN_FREQ);
-                            //std::cout << "Turning left" << delta_move <<std::endl;
-                        }
-                    }
-                    else {
-                        checks++;
-                    }
-                    break;
-                case RIGHT:
-                    delta_move = 0 - current_orientation;
-                    if (abs(delta_move) >= Orientation_error) {
-                        if (delta_move >= 180 || ((delta_move <= 0) && (delta_move > -180))) {
-                            Turn_right(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning right" << delta_move <<std::endl;
-                        }
-                        else {
-                            Turn_left(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning left" << delta_move <<std::endl;
-                        }
-                    }
-                    else {
-                        checks++;
-                    }
-                    break;
-                case LOWER:
-                    delta_move = 270 - current_orientation;
-                    if (abs(delta_move) >= Orientation_error) {
-                        if (delta_move >= 180 || ((delta_move <= 0) && (delta_move > -180))) {
-                            Turn_right(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning right" << delta_move <<std::endl;
-                        }
-                        else {
-                            Turn_left(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning left" << delta_move <<std::endl;
-                        }
-                    }
-                    else {
-                        checks++;
-                    }
-                    break;
-                case UPPER:
-                    delta_move = 90 - current_orientation;
-                    if (abs(delta_move) >= Orientation_error) {
-                        if (delta_move >= 180 || ((delta_move <= 0) && (delta_move > -180))) {
-                            Turn_right(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning right" << delta_move <<std::endl;
-                        }
-                        else {
-                            Turn_left(abs(delta_move), SLOW_TURN_FREQ);
-                            std::cout << "Turning left" << delta_move <<std::endl;
-                        }
-                    }
-                    else {
-                        checks++;
-                    }
-                    break;
-            }
-            */
+            checks += 2;
         }
     }
     else {
         float delta_x = target_position.x - current_position.x;
         float delta_y = target_position.y - current_position.y;
-        //cv::line(frame, current_position.x / MMPERPIXEL, target_position.x / MMPERPIXEL, cv::Scalar(255, 0, 0), 2);
-        //cv::line(frame, current_position.y / MMPERPIXEL, target_position.y / MMPERPIXEL, cv::Scalar(255, 0, 0), 2);
         if (delta_x >= distance_error) {
             if (delta_x >= 0) {
                 if (current_orientation >= 180) {
@@ -414,20 +335,14 @@ cv::Point2f CPathing::Car_Position(cv::Mat frame, float &orientation) {
     float dx = markerCorners[0][1].x - markerCorners[0][0].x;
     float dy = markerCorners[0][1].y - markerCorners[0][0].y;
 
-    //std::cout << "(dx, dy): (" << dx << ", " << dy << ")" << std::endl;
-
     float angleRad = atan2(dx, dy);               // Range: [-π, π]
     float angleDeg = angleRad * 180.0 / M_PI;     // Convert to degrees
     
     if (angleDeg < 0)
     angleDeg += 360.0;      
     std::cout << "Angle: " << angleDeg << std::endl;
-    
     orientation = angleDeg;
-    //cv::circle(frame, markerCorners[0][0], 10, cv::Scalar(255, 0, 0), -1); // Top left
-    //cv::circle(frame, markerCorners[0][1], 10, cv::Scalar(0, 255, 0), -1); // Top Right
-    //cv::circle(frame, markerCorners[0][2], 10, cv::Scalar(0, 0, 255), -1); // Bottom Right
-    //cv::circle(frame, markerCorners[0][3], 10, cv::Scalar(255, 0, 255), -1); // Bottom Left
+    
     cv::Point2f middle = cv::Point2f((markerCorners[0][0].x + markerCorners[0][2].x)/2, (markerCorners[0][0].y + markerCorners[0][2].y)/2);
     cv::line (frame, middle, cv::Point2f((markerCorners[0][0].x + markerCorners[0][1].x)/2, (markerCorners[0][0].y + markerCorners[0][1].y)/2), cv::Scalar(0, 255, 0), 2);
     return cv::Point2f((markerCorners[0][0].x + markerCorners[0][2].x)/2 * MMPERPIXEL, (markerCorners[0][0].y + markerCorners[0][2].y)/2 * MMPERPIXEL);
