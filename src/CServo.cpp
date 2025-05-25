@@ -11,8 +11,6 @@
 #define BL_HI 1880
 #define BR_HI 2205
 
-
-
 CServo::CServo(int gpio_pin, bool Mirror, int upper, int lower) {
    
     servo_upper = upper;
