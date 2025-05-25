@@ -36,19 +36,6 @@ public:
     void servo_adjust_lower_up(int id);
     void servo_adjust_lower_down(int id);
 
-    void move_distance(float distance);
-    void move_to_pickup();
-    void backup();
-    void move_to_dropoff();
-
-    void leave_start_box();
-
-    void right_90();
-    void left_90();
-
-    void right_45();
-    void left_45();
-
     void AutoPathing();
     bool AutoRouting(cv::Mat &frame, cv::Point2f target_position, int target_orientation);
     cv::Point2f Car_Position(cv::Mat frame, float &orientation);
