@@ -5,12 +5,10 @@ LDFLAGS = `pkg-config --libs opencv4` -lpigpio -lrt -pthread
 
 # Source files
 SRCS = auto_final.cpp \
-       CBase4699.cpp \
-       CCamera.cpp \
        Client.cpp \
-	   CPathing.cpp \
-	   CMotor.cpp \
-	   CServo.cpp \
+       CPathing.cpp \
+       CMotor.cpp \
+       CServo.cpp \
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
