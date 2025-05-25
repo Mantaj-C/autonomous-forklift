@@ -28,11 +28,6 @@ CPathing::~CPathing() {
 
 }
 
-#define phase1_distance 50.8
-#define phase3_distance 38.1
-#define backup_distance 25.4
-#define drop_distance 76.2
-#define final_distance 10
 #define ninety_degrees 13.27
 #define MMPERPIXEL 1.95791666667
 #define Orientation_error 10
@@ -67,34 +62,6 @@ void CPathing::move_distance(float distance) {
     _motors.stop();
 }
 
-void CPathing::move_to_pickup() {
-    _motors.forward();
-    _motors.start();
-    _motors.TravelTiming(phase1_distance);
-    _motors.stop();
-}
-
-void CPathing::backup() {
-    _motors.reverse();
-    _motors.start();
-    _motors.TravelTiming(backup_distance);
-    _motors.stop();
-}
-
-void CPathing::move_to_dropoff() {
-    _motors.forward();
-    _motors.start();
-    _motors.TravelTiming(drop_distance);
-    _motors.stop();
-}
-
-void CPathing::final() {
-    _motors.forward();
-    _motors.start();
-    _motors.TravelTiming(final_distance);
-    _motors.stop();
-}
-
 void CPathing::servo_adjust_upper_up(int id) {
     _servos[id].adjust_upper(SERVO_ADJUSTMENT);
     std::cout << "Upper Servo: " << _servos[id].get_upper() << std::endl;
@@ -115,29 +82,6 @@ void CPathing::servo_adjust_lower_down(int id) {
     std::cout << "Lower Servo: " << _servos[id].get_lower() << std::endl;
 }
 
-
-void CPathing::leave_start_box() {
-    _motors.forward();
-    _motors.start();
-    _motors.TravelTiming(50);
-    _motors.stop();
-}
-
-void CPathing::right_90() {
-    _motors.setPWM(_motors.getFrequency()/4);
-    _motors.right();
-    _motors.start();
-    _motors.TravelTiming(24.5);
-    _motors.stop();
-    _motors.setPWM(_motors.getFrequency()*4);
-}
-
-void CPathing::left_90() {
-    _motors.left();
-    _motors.start();
-    _motors.TravelTiming(24.5);
-    _motors.stop();
-}
 void CPathing::AutoPathing() {
     
     std::cout << "Auto Pathing" << std::endl;
