@@ -16,8 +16,8 @@ All STL files and C++ source code are included in this repository.
 
 ---
 
-### 🔗 Project Video & Demo
-[Insert link to video if you have one]
+### 🔗 Project Demo
+[Video Link](https://www.linkedin.com/posts/mantaj-chauhan-951b401b5_robotics-opencv-raspberrypi-activity-7332848276444012544-EtOq?utm_source=share&utm_medium=member_desktop&rcm=ACoAADIuHU0Bw7hjjBi1r9QsJ84nt98T_yjn1Ws)
 
 ---
 
