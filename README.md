@@ -30,4 +30,4 @@ All STL files and C++ source code are included in this repository.
 
 ### 🤝 Contributors
 - [Mantaj Chauhan](https://www.linkedin.com/in/mantaj-chauhan-951b401b5/)
-- [Fuquaan Hussein](https://www.linkedin.com/in/partners-profile)
+- [Fuquaan Hussein](https://www.linkedin.com/in/furqaan-hussein-994ba8367/)
